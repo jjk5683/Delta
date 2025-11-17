@@ -5,18 +5,18 @@ async function loadData() {
   try {
     const res = await fetch(API_URL);
     const data = await res.json();
-    console.log('기존 신청자:', data);
-    // 예: 테이블에 표시
     const table = document.getElementById('applicantsTable');
-    if(table){
-      data.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `<td>${item.name}</td><td>${item.email}</td><td>${item.course}</td>`;
-        table.appendChild(row);
-      });
-    }
+    
+    // 기존 테이블 내용 초기화 (헤더 제외)
+    table.querySelectorAll('tr:not(:first-child)').forEach(tr => tr.remove());
+    
+    data.forEach(item => {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td>${item.name}</td><td>${item.email}</td><td>${item.course}</td>`;
+      table.appendChild(row);
+    });
   } catch(err) {
-    console.error(err);
+    console.error('데이터 로드 실패:', err);
   }
 }
 
@@ -31,10 +31,10 @@ async function submitData(name, email, course) {
     const result = await res.json();
     console.log(result);
     alert('신청 완료!');
-    loadData(); // 제출 후 최신 데이터 로드
+    loadData(); // 제출 후 최신 데이터 표시
   } catch(err) {
-    console.error(err);
-    alert('데이터 전송 실패!');
+    console.error('데이터 전송 실패:', err);
+    alert('신청 실패!');
   }
 }
 
@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('email').value,
       document.getElementById('course').value
     );
+    form.reset();
   });
   loadData();
 });

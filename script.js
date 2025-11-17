@@ -1,4 +1,4 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbym8kDFqCa8zJUx-CwqK7eG2Qhc0TqMrP4mJ5zL872mSLFR91LIWZFATeKkOo5_xYbk/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz5mw_Oxb9ip3IxIawd_U0Up6Th-0MYNfIA_kIeUjWAQSxg6svVIHPRinCQxP1MUVrb/exec';
 
 async function getSubjects(grade) {
   const response = await fetch(`${SCRIPT_URL}?action=getSubjects&grade=${encodeURIComponent(grade)}`);

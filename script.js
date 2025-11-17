@@ -1,54 +1,44 @@
-const API_URL = 'https://script.google.com/macros/s/AKfycbym8kDFqCa8zJUx-CwqK7eG2Qhc0TqMrP4mJ5zL872mSLFR91LIWZFATeKkOo5_xYbk/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbym8kDFqCa8zJUx-CwqK7eG2Qhc0TqMrP4mJ5zL872mSLFR91LIWZFATeKkOo5_xYbk/exec';
 
-// 데이터 불러오기
-async function loadData() {
-  try {
-    const res = await fetch(API_URL);
-    const data = await res.json();
-    const table = document.getElementById('applicantsTable');
-    
-    // 기존 테이블 내용 초기화 (헤더 제외)
-    table.querySelectorAll('tr:not(:first-child)').forEach(tr => tr.remove());
-    
-    data.forEach(item => {
-      const row = document.createElement('tr');
-      row.innerHTML = `<td>${item.name}</td><td>${item.email}</td><td>${item.course}</td>`;
-      table.appendChild(row);
-    });
-  } catch(err) {
-    console.error('데이터 로드 실패:', err);
-  }
+async function getSubjects(grade) {
+  const response = await fetch(`${SCRIPT_URL}?action=getSubjects&grade=${encodeURIComponent(grade)}`);
+  const data = await response.json();
+  return data;
 }
 
-// 데이터 전송
-async function submitData(name, email, course) {
-  try {
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify({ name, email, course }),
-      headers: { 'Content-Type': 'application/json' }
-    });
-    const result = await res.json();
-    console.log(result);
-    alert('신청 완료!');
-    loadData(); // 제출 후 최신 데이터 표시
-  } catch(err) {
-    console.error('데이터 전송 실패:', err);
-    alert('신청 실패!');
-  }
+async function getLectures(grade, subject) {
+  const response = await fetch(`${SCRIPT_URL}?action=getLectures&grade=${encodeURIComponent(grade)}&subject=${encodeURIComponent(subject)}`);
+  const data = await response.json();
+  return data;
 }
 
-// 폼 이벤트 연결
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('registerForm');
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    submitData(
-      document.getElementById('name').value,
-      document.getElementById('email').value,
-      document.getElementById('course').value
-    );
-    form.reset();
+async function submitForm(name, grade, school, studentContact, parentContact, courses, isResubmission) {
+  const response = await fetch(SCRIPT_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      action: "submitForm",
+      name,
+      grade,
+      school,
+      studentContact,
+      parentContact,
+      courses,
+      isResubmission
+    })
   });
-  loadData();
-});
+  const data = await response.json();
+  return data;
+}
+
+async function getSubmittedCourses(name, grade, parentContact) {
+  const response = await fetch(`${SCRIPT_URL}?action=getSubmittedCourses&name=${encodeURIComponent(name)}&grade=${encodeURIComponent(grade)}&parentContact=${encodeURIComponent(parentContact)}`);
+  const data = await response.json();
+  return data;
+}
+
+async function getStudentApplication(name, grade, parentContact) {
+  const response = await fetch(`${SCRIPT_URL}?action=getStudentApplication&name=${encodeURIComponent(name)}&grade=${encodeURIComponent(grade)}&parentContact=${encodeURIComponent(parentContact)}`);
+  const data = await response.json();
+  return data;
+}

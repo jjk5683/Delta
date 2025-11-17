@@ -26,16 +26,15 @@
     <meta name="twitter:image" content="https://raw.githubusercontent.com/jjk5683/Delta/refs/heads/main/preview.png" />
 
     <!-- ▶ 여기도 반드시 교체: 실제 Apps Script Web App URL (사용자 접속시 리다이렉트할 주소) -->
-    <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbym8kDFqCa8zJUx-CwqK7eG2Qhc0TqMrP4mJ5zL872mSLFR91LIWZFATeKkOo5_xYbk/exec" />
+    <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbxjI-0IaUjqcyubr3s-vHDzdPjJFs5-BmL_fG-oJ_dPt2iAK1fPPZ7QmzTmq-Zw3axe/exec" />
 
     <style>
       body {
         font-family: "Noto Sans KR", Arial, sans-serif;
         background: linear-gradient(135deg, #f7f7f7 0%, #e9e9e9 100%);
-        margin: 0;
+        margin: 30px;
         padding: 0;
       
-        /* 앱 같은 느낌 */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -43,12 +42,15 @@
       
         min-height: 100vh;
       
-        /* 부드러운 화면 전환 */
         transition: opacity 0.3s ease-in-out;
       }
       
-      body.loading {
+      body.card {
         opacity: 0; /* 로딩 초기에는 잠시 숨김 */
+      }
+
+      body.card  h2 {
+        font-size: 45px;
       }
       
       @media (max-width: 992px) {
